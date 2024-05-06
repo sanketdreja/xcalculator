@@ -36,7 +36,7 @@ function Calculator() {
       }
 
       // Update the expression with the evaluated result
-      setExpression(String(evaluatedResult));
+      setResult(String(evaluatedResult));
     } catch (error) {
       // If there is an error in evaluation, display 'Error'
       setResult("Error");

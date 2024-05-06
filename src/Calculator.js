@@ -48,6 +48,8 @@ function Calculator() {
     <div className="calculator">
       <h1>React Calculator</h1>
       <input type="text" value={expression} readOnly />
+      <div className="result">{result}</div>
+
       <div className="buttons">
         <div className="buttonRow">
           <button onClick={() => handleButtonClick("7")}>7</button>
@@ -77,7 +79,6 @@ function Calculator() {
           <button onClick={() => handleButtonClick("/")}>/</button>
         </div>
       </div>
-      <div className="result">{result}</div>
     </div>
   );
 }

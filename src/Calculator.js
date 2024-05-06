@@ -22,6 +22,14 @@ function Calculator() {
 
   // Evaluate the expression
   const handleEquals = () => {
+    // Check for an incomplete expression (e.g., empty or ending with an operator)
+    if (!expression || /[+\-*/]$/.test(expression)) {
+      // Display 'Error' if the expression is incomplete
+      setResult("Error");
+      setExpression("");
+      return;
+    }
+
     try {
       // Evaluate the current expression
       const evaluatedResult = eval(expression);
@@ -36,11 +44,11 @@ function Calculator() {
       }
 
       // Update the expression with the evaluated result
-      setResult(String(evaluatedResult));
+      setExpression(String(evaluatedResult));
     } catch (error) {
       // If there is an error in evaluation, display 'Error'
       setResult("Error");
-      // setExpression("");
+      setExpression("");
     }
   };
 

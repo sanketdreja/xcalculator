@@ -40,7 +40,7 @@ function Calculator() {
     } catch (error) {
       // If there is an error in evaluation, display 'Error'
       setResult("Error");
-      setExpression("");
+      // setExpression("");
     }
   };
 

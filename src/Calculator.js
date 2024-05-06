@@ -2,41 +2,46 @@ import React, { useState } from "react";
 import "./Calculator.css";
 
 function Calculator() {
-  const [expression, setExpression] = useState("");
-  const [result, setResult] = useState("");
+  const [expression, setExpression] = useState(""); // Stores the current expression
+  const [result, setResult] = useState(""); // Stores the current result
 
-  const handleNumber = (number) => {
-    setExpression(expression + number);
+  // Handles button clicks
+  const handleButtonClick = (value) => {
+    if (value === "C") {
+      // Clear the calculator
+      setExpression("");
+      setResult("");
+    } else if (value === "=") {
+      // Evaluate the expression
+      handleEquals();
+    } else {
+      // Add the button value to the expression
+      setExpression((prevExpression) => prevExpression + value);
+    }
   };
 
-  const handleOperator = (operator) => {
-    setExpression(expression + operator);
-  };
-
-  const handleClear = () => {
-    setExpression("");
-    setResult("");
-  };
-
+  // Evaluate the expression
   const handleEquals = () => {
     try {
+      // Evaluate the current expression
       const evaluatedResult = eval(expression);
-      setResult(evaluatedResult.toString());
-      setExpression(evaluatedResult.toString());
-    } catch (error) {
-      setResult("Error");
-    }
-  };
 
-  const handleDivisionByZero = (operator) => {
-    if (
-      expression.endsWith("/") &&
-      (expression === "0/" || expression.endsWith("/0"))
-    ) {
-      setResult("Infinity");
-      return;
+      // Check for division by zero and handle accordingly
+      if (evaluatedResult === Infinity) {
+        setResult("Infinity");
+      } else if (isNaN(evaluatedResult)) {
+        setResult("NaN");
+      } else {
+        setResult(String(evaluatedResult));
+      }
+
+      // Update the expression with the evaluated result
+      setExpression(String(evaluatedResult));
+    } catch (error) {
+      // If there is an error in evaluation, display 'Error'
+      setResult("Error");
+      setExpression("");
     }
-    handleOperator(operator);
   };
 
   return (
@@ -45,31 +50,31 @@ function Calculator() {
       <input type="text" value={expression} readOnly />
       <div className="buttons">
         <div className="buttonRow">
-          <button onClick={handleNumber}>7</button>
-          <button onClick={handleNumber}>8</button>
-          <button onClick={handleNumber}>9</button>
-          <button onClick={() => handleOperator("+")}>+</button>
+          <button onClick={() => handleButtonClick("7")}>7</button>
+          <button onClick={() => handleButtonClick("8")}>8</button>
+          <button onClick={() => handleButtonClick("9")}>9</button>
+          <button onClick={() => handleButtonClick("+")}>+</button>
         </div>
 
         <div className="buttonRow">
-          <button onClick={handleNumber}>4</button>
-          <button onClick={handleNumber}>5</button>
-          <button onClick={handleNumber}>6</button>
-          <button onClick={() => handleOperator("-")}>-</button>
+          <button onClick={() => handleButtonClick("4")}>4</button>
+          <button onClick={() => handleButtonClick("5")}>5</button>
+          <button onClick={() => handleButtonClick("6")}>6</button>
+          <button onClick={() => handleButtonClick("-")}>-</button>
         </div>
 
         <div className="buttonRow">
-          <button onClick={handleNumber}>1</button>
-          <button onClick={handleNumber}>2</button>
-          <button onClick={handleNumber}>3</button>
-          <button onClick={() => handleOperator("*")}>*</button>
+          <button onClick={() => handleButtonClick("1")}>1</button>
+          <button onClick={() => handleButtonClick("2")}>2</button>
+          <button onClick={() => handleButtonClick("3")}>3</button>
+          <button onClick={() => handleButtonClick("*")}>*</button>
         </div>
 
         <div className="buttonRow">
-          <button onClick={handleClear}>C</button>
-          <button onClick={handleNumber}>0</button>
-          <button onClick={handleEquals}>=</button>
-          <button onClick={() => handleDivisionByZero("/")}>/</button>
+          <button onClick={() => handleButtonClick("C")}>C</button>
+          <button onClick={() => handleButtonClick("0")}>0</button>
+          <button onClick={() => handleButtonClick("=")}>=</button>
+          <button onClick={() => handleButtonClick("/")}>/</button>
         </div>
       </div>
       <div className="result">{result}</div>
